@@ -26,32 +26,28 @@
          });
      })
 
-// ajout des filtres index0
-fetch ('http://localhost:5678/api/works')
-    .then(dataListeProjets => dataListeProjets.json())
-    .then(jsonListeProjets =>  {
+// ajout des filtres 
+fetch('http://localhost:5678/api/categories')
+     .then(dataListeFiltres => dataListeFiltres.json())
+     .then(jsonListeFiltres => {
+        console.log(jsonListeFiltres)
 
-        console.log(jsonListeProjets)
+        //je relie JS et HTML et suppression HTML
+        const filtreProjet = document.querySelector('.filtres')
+        filtreProjet.innerHTML=''
 
-        const nomFiltre = jsonListeProjets.filter((projet, index)=> {
-            return console.log(projet.category.name)  
+        // je rajoute mon filtre TOUS
+        let filtreTous = document.createElement('button')
+            filtreTous.textContent = 'Tous'
+            filtreProjet.appendChild(filtreTous)
+
+        // je crée mes élements filtres
+        jsonListeFiltres.forEach( nomFiltre => {
+            const bouttonFiltre = document.createElement('button')
+            bouttonFiltre.textContent = nomFiltre.name
+            filtreProjet.appendChild(bouttonFiltre)
         })
 
-//je relie JS au filtres HTML et suppression button HTML
-            const filtreGalerieProjet = document.querySelector('.filtres')
-            filtreGalerieProjet.innerHTML = ''    
+     })
 
-// j'ajoute les filtres
-            
-            const boutonFiltre = document.createElement('button')
-            boutonFiltre.textContent = jsonListeProjets.nomFiltre
-            filtreGalerieProjet.appendChild(boutonFiltre)
         
-    })       
-
-// TEST
-/*fetch ('http://localhost:5678/api/works')
-    .then(dataListeProjets => dataListeProjets.json())
-    .then(jsonListeProjets => {
-        console.log(jsonListeProjets)
-       
