@@ -1,32 +1,31 @@
 // Récupérer les données dans l'API
 
- fetch('http://localhost:5678/api/works')
-     .then(dataListeProjets => dataListeProjets.json())
-     .then(jsonListeProjets => {
-         console.table(jsonListeProjets)
+fetch('http://localhost:5678/api/works')
+.then(dataListeProjets => dataListeProjets.json())
+.then(jsonListeProjets => {
+    console.table(jsonListeProjets)
 
 // relier fichier JS à la classe gallery du HTML
-         const galerieProjet = document.querySelector('.gallery')
+    const galerieProjet = document.querySelector('.gallery')
 // suppression galerie du HTML 
-         galerieProjet.innerHTML = ''
+    galerieProjet.innerHTML = ''
 
 //Ajout de chaque élément de la galerie 
-         jsonListeProjets.map(projet => {
-             const figure = document.createElement('figure')
-             const img = document.createElement('img')
-             const figcaption = document.createElement('figcaption')
+    jsonListeProjets.map (projet => {
+        const figure = document.createElement('figure')
+        const img = document.createElement('img')
+        const figcaption = document.createElement('figcaption')
 
-             img.src = projet.imageUrl
-             img.alt = projet.title
-             figcaption.textContent = projet.title
+        img.src = projet.imageUrl
+        img.alt = projet.title
+        figcaption.textContent = projet.title
 
-             galerieProjet.appendChild(figure)
-             figure.appendChild(img)
-             figure.appendChild(figcaption)
-         });
-     })
-
-// ajout des filtres 
+        galerieProjet.appendChild(figure)
+        figure.appendChild(img)
+        figure.appendChild(figcaption)
+    });
+})
+// ajout des filtres à partir de la route catégorie
 fetch('http://localhost:5678/api/categories')
      .then(dataListeFiltres => dataListeFiltres.json())
      .then(jsonListeFiltres => {
@@ -41,13 +40,42 @@ fetch('http://localhost:5678/api/categories')
             filtreTous.textContent = 'Tous'
             filtreProjet.appendChild(filtreTous)
 
-        // je crée mes élements filtres
+        // je crée mes boutons filtres
         jsonListeFiltres.forEach( nomFiltre => {
-            const bouttonFiltre = document.createElement('button')
-            bouttonFiltre.textContent = nomFiltre.name
-            filtreProjet.appendChild(bouttonFiltre)
+            const boutonFiltre = document.createElement('button')
+            boutonFiltre.textContent = nomFiltre.name
+            filtreProjet.appendChild(boutonFiltre)
+            boutonFiltre.addEventListener('click', function(){
+                console.log(`Le bouton ${nomFiltre.name} a été cliqué!!!`)
+            })
         })
-
      })
 
-        
+    
+
+/*//Gestion des filtres
+             
+const boutonFiltreAppartements = document.querySelector('.boutonFiltreAppartements')
+const boutonFiltreHotelsRestaurants = document.querySelector('boutonFiltreHotelsRestaurants')
+const boutonObjet = document.querySelector('.boutonFiltreObjets')
+
+const boutonFiltreObjets = document.querySelector('.boutonFiltreObjets')
+boutonFiltreObjets.innerHTML=''
+
+const boutonObjets = document.createElement('button')
+
+boutonFiltre.addEventListener('click', function(){
+    console.log(`Le bouton ${nomFiltre.name} a été cliqué!!!`)
+    jsonListeFiltres.filter(function (projet) {
+        return nomFiltre.name === 'Objets'
+    })
+ })
+
+
+    /*for (let i=0; i<jsonListeProjets;i++){
+        galerieProjet.innerHTML=
+        return projet.category.name === 'Objets'
+    } 
+    //jsonListeProjets.filter(function (projet) {
+        //return projet.category.name === 'Objets'
+    })*/
