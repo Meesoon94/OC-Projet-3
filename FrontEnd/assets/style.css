@@ -186,3 +186,7 @@ footer nav ul {
 	margin: 2em
 }
 
+/* cacher les filtres */
+/*.filtres {
+	display: none;
+}*/
