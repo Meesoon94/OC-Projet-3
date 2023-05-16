@@ -98,76 +98,46 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
-#introduction {
-	display: flex;
-	align-items: center;
-}
-#introduction figure {
-	flex: 1
-}
-#introduction img {
-	display: block;
+
+#login {
+	width: 30%;
 	margin: auto;
-	width: 80%;
 }
-
-#introduction article {
-	flex: 1
-}
-#introduction h2 {
-	margin-bottom: 1em;
-}
-
-#introduction p {
-	margin-bottom: 0.5em;
-}
-#portfolio h2 {
-	text-align: center;
-	margin-bottom: 1em;
-}
-.gallery {
-	width: 100%;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-column-gap: 20px;
-	grid-row-gap: 20px;
-}
-
-.gallery img {
-	width: 100%;
-
-}
-#contact {
-	width: 50%;
-margin: auto;
-}
-#contact > * {
+#login > * {
 	text-align: center;
 
 }
-#contact h2{
+#login h2{
 	margin-bottom: 20px;
 }
-#contact form {
+#login form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+#login input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+#login label {
 	margin: 2em 0 1em 0;
 }
-#contact textarea {
+#login textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+#login p a {
+	text-decoration: underline;
+	color: black;
+}
+#login p {
+	text-align: center;
+}
+
 
 input[type="submit"]{
 	font-family: 'Syne';
@@ -191,24 +161,4 @@ body {
 	background-color: #FFFEF8	;
 }
 
-button {
-	border: solid #1D6154 1px;
-	border-radius: 20px;
-	background-color: #FFFEF8;
-	padding: 7px;
-	padding-left: 10px;
-	padding-right: 10px;
-	font-family: 'Syne';
-	color: #1D6154;
-	margin: auto;
-}
 
-.filtres {
-	width: 45%;
-	margin: auto;
-	display: flex;
-	gap: 15px;
-	justify-content: space-around;
-	margin-bottom: 40px;
-	
-}
