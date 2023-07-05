@@ -162,3 +162,24 @@ body {
 }
 
 
+main {}
+	
+
+section {
+	min-height:750px;
+	width: auto;
+}
+
+a:visited {
+	color: black;
+}
+
+a {
+	text-decoration: none;
+}
+
+li:hover {
+	font-weight: bold;
+}
+
+

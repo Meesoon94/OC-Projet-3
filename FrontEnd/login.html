@@ -9,6 +9,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/login.css">
+	<script src="login.js" defer></script>
 </head>
 
 <body>
@@ -16,9 +17,9 @@
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li>login</li>
+			<a href="index.html#portfolio"><li>projets</li></a>
+			<a href="index.html#contact"><li>contact</li></a>
+			<a href="login.html"><li>login</li></a>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -26,12 +27,12 @@
 <main>
 	<section id="login">
 		<h2>Log In</h2>
-		<form action="#" method="post">
+		<form action="http://localhost:5678/api/users/login" method="post" id="login-form">
 			<label for="email">Email</label>
 			<input type="email" name="email" id="email">
 			<label for="password">Mot de passe</label>
 			<input type="password" name="password" id="password"></input>
-			<input type="submit" value="Se connecter">
+			<input type="submit" value="Se connecter" id="login-form-submit">
             <p><a href="#">Mot de passe oublié</a></p>
 		</form>
 	</section>

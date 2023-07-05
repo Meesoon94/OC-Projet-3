@@ -94,6 +94,13 @@ nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
 }
+a:visited {
+	color: black;
+}
+
+a {
+	text-decoration: none;
+}
 
 li:hover {
 	color: #B1663C;
@@ -210,5 +217,9 @@ button {
 	gap: 15px;
 	justify-content: space-around;
 	margin-bottom: 40px;
-	
+}
+
+button:hover {
+	background-color: #1D6154 ;
+	color: white;
 }
