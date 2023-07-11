@@ -9,6 +9,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<script src="https://kit.fontawesome.com/09dd1bfec8.js" crossorigin="anonymous"></script>
 	<!-- Pour relier mon fichier JS à mon fichier HTML attribut defer pour que JS se charge aprs HTML type=module pour utiliser des fichiers js entre eux--> 
 	<script src="home.js" defer></script>
 </head>
@@ -28,6 +29,9 @@
 	<section id="introduction">
 		<figure>
 			<img src="./assets/images/sophie-bluel.png" alt="">
+			<div class="admin">
+				<a href="#modalPhotoProfil" class="modalJS"><i class="fa-regular fa-pen-to-square"></i>Modifier</a>
+			</div>
 		</figure>
 		<article>
 			<h2>Designer d'espace</h2>
@@ -37,7 +41,103 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div class="enteteProjets">
+			<h2>Mes Projets</h2>
+			<div class="admin">
+				<a href="#modalProjets" class="modalJS"><i class="fa-regular fa-pen-to-square"></i>Modifier</a>
+				<aside id="modalProjets" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modalTitre"
+					style="display:none">
+					<div class="modal-wrapper jsModalStop">
+						<button class="fermerModalJS"><i class="fa-solid fa-xmark"></i></button>
+						<h2 id="modalTitre">Galerie Photos</h2>
+						<div class="modalGalerie">
+							<div class="image-container">
+								<figure>
+									<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
+									<p>éditer</p>
+									<div class="carre-selection"><i class="fa-solid fa-trash-can"></i></div>
+								</figure>
+							</div>
+							<div class="image-container">
+								<figure>
+									<img src="assets/images/appartement-paris-v.png" alt="Appartement Paris V">
+									<p>éditer</p>
+									<div class="carre-selection"><i class="fa-solid fa-trash-can"></i></div>
+								</figure>
+							</div>
+							<div class="image-container">
+								<figure>
+									<img src="assets/images/restaurant-sushisen-londres.png"
+										alt="Restaurant Sushisen - Londres">
+									<p>éditer</p>
+									<div class="carre-selection"><i class="fa-solid fa-trash-can"></i></div>
+								</figure>
+							</div>
+							<div class="image-container">
+								<figure>
+									<img src="assets/images/la-balisiere.png" alt="Villa “La Balisiere” - Port Louis">
+									<p>éditer</p>
+									<div class="carre-selection"><i class="fa-solid fa-trash-can"></i></div>
+								</figure>
+							</div>
+							<div class="image-container">
+								<figure>
+									<img src="assets/images/structures-thermopolis.png" alt="Structures Thermopolis">
+									<p>éditer</p>
+									<div class="carre-selection"><i class="fa-solid fa-trash-can"></i></div>
+								</figure>
+							</div>
+							<div class="image-container">
+								<figure>
+									<img src="assets/images/appartement-paris-x.png" alt="Appartement Paris X">
+									<p>éditer</p>
+									<div class="carre-selection"><i class="fa-solid fa-trash-can"></i></div>
+								</figure>
+							</div>
+							<div class="image-container">
+								<figure>
+									<img src="assets/images/le-coteau-cassis.png" alt="Pavillon “Le coteau” - Cassis">
+									<p>éditer</p>
+									<div class="carre-selection"><i class="fa-solid fa-trash-can"></i></div>
+								</figure>
+							</div>
+							<div class="image-container">
+								<figure>
+									<img src="assets/images/villa-ferneze.png" alt="Villa Ferneze - Isola d’Elba">
+									<p>éditer</p>
+									<div class="carre-selection"><i class="fa-solid fa-trash-can"></i></div>
+								</figure>
+							</div>
+							<div class="image-container">
+								<figure>
+									<img src="assets/images/appartement-paris-xviii.png" alt="Appartement Paris XVIII">
+									<p>éditer</p>
+									<div class="carre-selection"><i class="fa-solid fa-trash-can"></i></div>
+								</figure>
+							</div>
+							<div class="image-container">
+								<figure>
+									<img src="assets/images/bar-lullaby-paris.png" alt="Bar “Lullaby” - Paris">
+									<p>éditer</p>
+									<div class="carre-selection"><i class="fa-solid fa-trash-can"></i></div>
+								</figure>
+							</div>
+							<div class="image-container">
+								<figure>
+									<img src="assets/images/hotel-first-arte-new-delhi.png" alt="Hotel First Arte - New Delhi">
+									<p>éditer</p>
+									<div class="carre-selection"><i class="fa-solid fa-trash-can"></i></div>
+								</figure>
+							</div>
+						</div>
+						<div class="modalGalerieBouton">
+							<button>Ajoutez une photo</button>
+							<button class="supression">Supprimez la galerie</button>
+						</div>
+					</div>
+				</aside>
+			</div>
+		</div>
 		<div class="filtres">
 			<button class="boutonTous">Tous</button>
 			<button class="boutonObjets">Objets</button>

@@ -22,9 +22,15 @@ loginSubmit.addEventListener('click', function (e) {
         .then(dataUser => {
             // Traitement de la réponse de l'API + stockage
             console.log(dataUser);
-            localStorage.setItem(dataUser, dataUser.value)
+            let token = dataUser.token
+            sessionStorage.setItem('token', token)
+            console.log(dataUser.token)
             // Redirection vers la page d'accueil
-            window.location.href="index.html"; 
+            if (dataUser.token !== undefined ){
+                window.location.href="index.html"; 
+            } else {
+                return alert ('Mot de passe et/ou email erroné. Veuillez vérifier vos identifiants.')
+            }
         })
         .catch(error => {
             // Gestion des erreurs

@@ -132,10 +132,68 @@ listeFiltres.forEach(nomFiltre => {
     }
 })
 
+let token = sessionStorage.getItem('token')
+console.log(token)
+
+if (token) {
+    let filtresCaches = document.querySelector('.filtres')
+    filtresCaches.style.display = 'none'
+    let adminElement = document.querySelectorAll('.admin')
+    for (let i=0; i< adminElement.length; i++){
+        adminElement[i].classList.remove('admin')
+    }
+} 
+else {
+    let adminElement = document.querySelectorAll('.admin')
+    for (let i=0; i< adminElement.length; i++){
+        adminElement[i].classList.add('admin')
+    }  
+} 
+
+let modal = null
+
+const ouvrirModal = function (e){
+    e.preventDefault()
+    const target = document.querySelector(e.target.getAttribute('href'))
+    target.style.display = null
+    target.removeAttribute('aria-hidden')
+    target.setAttribute('aria-modal', 'true')
+    modal = target
+    modal.addEventListener('click', fermerModal)
+    modal.querySelector('.fermerModalJS').addEventListener('click', fermerModal)
+    modal.querySelector('.jsModalStop').addEventListener('click', stopPropagation)
+}
+
+const fermerModal = function(e){
+    if (modal === null) return
+    e.preventDefault()
+    modal.style.display = "none"
+    modal.setAttribute('aria-hidden', 'true')
+    modal.removeAttribute('aria-modal')
+    modal.removeEventListener('click', fermerModal)
+    modal.querySelector('.fermerModalJS').removeEventListener('click', fermerModal)
+    modal.querySelector('.jsModalStop').removeEventListener('click', stopPropagation)
+    modal = null
+}
+
+const stopPropagation = function (e) {
+    e.stopPropagation()
+}
+
+document.querySelectorAll('.modalJS').forEach ( a=> {
+    a.addEventListener('click', ouvrirModal)
+})
+
+
+
 //rendre mes filtres fonctionnels
 
 //boucle remplacer par la fonction filter
-/*listeProjets.forEach( projetObjetFiltrés =>{
+/*else {
+    document.querySelectorAll('.admin').classList.add('hidden')
+}
+
+listeProjets.forEach( projetObjetFiltrés =>{
     const listeFiltreObjets = []
     for (let i=0; i<listeProjets.length; i++){
         listeProjets[i].categoryId
