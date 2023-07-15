@@ -220,17 +220,17 @@ listeProjets.forEach(projet => {
     figure.appendChild(move)
 
     figure.addEventListener('mouseenter', () => {
-        move.classList.remove('hidden'); // Afficher l'icône poubelle au survol de l'image
+        move.classList.remove('hidden'); // Afficher l'icône déplacer au survol de l'image
     });
     
     figure.addEventListener('mouseleave', () => {
-        move.classList.add('hidden'); // Masquer l'icône poubelle lorsque le curseur quitte l'image
+        move.classList.add('hidden'); // Masquer l'icône déplacer lorsque le curseur quitte l'image
     });
 })
 
 // code suppression API
-const ids = listeProjets.map(projet => projet.id);
-console.log(ids);
+//const ids = listeProjets.map(projet => projet.id);
+//console.log(ids);
 
 //const boutonSupprimer = document.querySelector('.supression');
 const iconesPoubelle = document.querySelectorAll('.poubelle-icone');
@@ -249,12 +249,12 @@ function supprimerProjet(id) {
   }
 console.log(id)
 
-  // Vérifier si l'élément projet existe
+  /*// Vérifier si l'élément projet existe
   
   if (!projet) {
     alert("L'élément projet avec l'ID " + id + " n'existe pas.");
     return;
-  }
+  }*/
   // Effectuer une requête vers l'API pour supprimer le projet
   let url = "http://localhost:5678/api/works/" + id;
   fetch(url, {
@@ -279,6 +279,14 @@ console.log(id)
       alert("Une ERREUR s'est produite lors de la suppression du projet.");
     });
 }
+
+iconesPoubelle.forEach( (poubelle,index) => {
+    poubelle.addEventListener('click',()=>{
+        const idProjet = listeProjets[index].id
+        supprimerProjet(idProjet)
+    })
+})
+
 
 /*boutonSupprimer.addEventListener('click', () => {
   if (token && ids.length > 0) {
