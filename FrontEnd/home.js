@@ -1,4 +1,4 @@
-// Récupérer les données dans l'API et les stockées sous forme de chaine de caractères dans mon navigateur
+//Récupérer les données dans l'API et les stockées sous forme de chaine de caractères dans mon navigateur
 fetch('http://localhost:5678/api/works')
     .then(dataListeProjets => dataListeProjets.json())
     .then(jsonListeProjets => {
@@ -154,7 +154,6 @@ else {
 } 
 
 // Code modale
-
 let modal = null
 
 const ouvrirModal = function (e){
@@ -172,6 +171,10 @@ const ouvrirModal = function (e){
 const fermerModal = function(e){
     if (modal === null) return
     e.preventDefault()
+
+    // Vérifier si la suppression du projet a été effectuée
+    //const suppressionEffectuee = e.target.classList.contains('poubelle-icone');
+    //if (suppressionEffectuee) return; // Arrêter l'exécution de la fonction si la suppression est effectuée
 
     modal.style.display = "none"
     modal.setAttribute('aria-hidden', 'true')
@@ -206,16 +209,19 @@ listeProjets.forEach(projet => {
     img.alt = projet.title
     editer.textContent = 'éditer'
 
-    figure.classList.add('modal-figure'); // Ajout de la classe pour la mise en page dans la modale
-    poubelle.classList.add('fa-solid', 'fa-trash-can', 'poubelle-icone'); // Ajout des classes pour l'icône poubelle
-    move.classList.add('fa-solid', 'fa-up-down-left-right', 'move-icone', 'hidden') // Ajout de la classe pour l'icône déplacer
+    // Ajout de la classe pour la mise en page dans la modale
+    figure.classList.add('modal-figure')
+    // Ajout des classes pour l'icône poubelle
+    poubelle.classList.add('fa-solid', 'fa-trash-can', 'poubelle-icone')
+    // Ajout de la classe pour l'icône déplacer
+    move.classList.add('fa-solid', 'fa-up-down-left-right', 'move-icone', 'hidden') 
 
   // Récupérer l'ID du projet
-    const projetId = projet.id;
+    const projetId = projet.id
     console.log(projetId)
 
   // Stocker l'ID du projet comme attribut personnalisé
-    figure.setAttribute('data-id', projetId);
+    figure.setAttribute('data-id', projetId)
   
     modalGalerieProjet.appendChild(figure)
     figure.appendChild(img)
@@ -225,368 +231,78 @@ listeProjets.forEach(projet => {
 
   //Gestion de l'apparition de l'icône déplacer
     figure.addEventListener('mouseenter', () => {
-        move.classList.remove('hidden'); // Afficher l'icône déplacer au survol de l'image
-    });
+       // Afficher l'icône déplacer au survol de l'image
+        move.classList.remove('hidden')
+    })
     figure.addEventListener('mouseleave', () => {
-        move.classList.add('hidden'); // Masquer l'icône déplacer lorsque le curseur quitte l'image
-    });
+      // Masquer l'icône déplacer lorsque le curseur quitte l'image
+        move.classList.add('hidden')
+    })
 })
 
 // code suppression API
-const iconesPoubelle = document.querySelectorAll('.poubelle-icone');
+const iconesPoubelle = document.querySelectorAll('.poubelle-icone')
 
-async function supprimerProjet(id, event) {
+function supprimerProjet(id, event) {
   //Pour que la modale ne se ferme pas a la suppression des projets
-  event.stopPropagation();
+  event.stopPropagation()
   // Vérifier si l'utilisateur est authentifié
   if (!token) {
-    alert("Vous devez vous connecter pour supprimer un projet.");
-    return;
+    alert("Vous devez vous connecter pour supprimer un projet.")
+    return
   }
   console.log(token)
-
   // Vérifier si l'id du projet est présent
   if (!id) {
-    alert("Impossible de récupérer l'ID du projet.");
-    return;
+    alert("Impossible de récupérer l'ID du projet.")
+    return
   }
   console.log(id)
 
-try {
-    // Effectuer une requête vers l'API pour supprimer le projet
-    let url = "http://localhost:5678/api/works/" + id;
-    const response = await fetch(url, {
-      method: "DELETE",
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    });
-
-    if (response.ok) {
-      // Suppression réussie, faire les traitements nécessaires (par exemple, masquer le projet de l'interface)
-      let projet = document.querySelector(`[data-id="${id}"]`);
-      console.log(projet)
-      mettreAJourListeProjets(id);
-
-      // Supprimer l'événement de fermeture de la modale
-      modal.removeEventListener('click', fermerModal);
-      modal.querySelector('.fermerModalJS').removeEventListener('click', fermerModal);
-      modal.querySelector('.jsModalStop').removeEventListener('click', stopPropagation);
-
-      alert("Le projet a été supprimé avec succès.");
-    
-    } else {
-     // La suppression a échoué, afficher un message d'erreur approprié
-     console.error("Une erreur s'est produite lors de la suppression du projet:", response.statusText);
-     alert("Une erreur s'est produite lors de la suppression du projet.");
-    }
-  } catch (error) {
-    console.error("Une ERREUR s'est produite lors de la suppression du projet:", error.message);
-    alert("Une ERREUR s'est produite lors de la suppression du projet.");
-  }
-}
-
-// Fonction pour mettre à jour la liste des projets après la suppression
-function mettreAJourListeProjets(idProjetSupprime) {
-  // Filtrer la liste existante pour exclure le projet supprimé
-  listeProjets = listeProjets.filter(projet => projet.id !== idProjetSupprime);
-}
-
-
-
-iconesPoubelle.forEach((poubelle, index) => {
-  poubelle.addEventListener('click', async(event) => {
-      event.stopPropagation();
-      // Récupérer l'élément figure parent de l'icône poubelle
-      const figureElement = poubelle.closest('.modal-figure');
-      
-      // Récupérer l'ID du projet à partir de l'attribut personnalisé
-      const projetId = figureElement.getAttribute('data-id');
-      console.log(projetId)
-      await supprimerProjet(projetId, event);
-        // Masquer l'élément du projet dans l'interface utilisateur
-      figureElement.style.display = 'none';
-    
-  });
-});
-
-
-
-
-/*
-mettreAJourModaleProjetSupprime(id)
-function mettreAJourModaleProjetSupprime(idProjetSupprime) {
-  // Supprimer l'élément du projet de la modale
-  const projetElement = modalGalerieProjet.querySelector(`[data-id="${idProjetSupprime}"]`);
-  if (projetElement) {
-    projetElement.remove();
-  }
-}
-
-
-iconesPoubelle.forEach((poubelle, index) => {
-    poubelle.addEventListener('click', async(event) => {
-        event.stopPropagation();
-        // Récupérer l'élément figure parent de l'icône poubelle
-        const figureElement = poubelle.closest('.modal-figure');
-        
-        // Récupérer l'ID du projet à partir de l'attribut personnalisé
-        const projetId = figureElement.getAttribute('data-id');
-        
-        await supprimerProjet(projetId);
-          // Masquer l'élément du projet dans l'interface utilisateur
-      figureElement.style.display = 'none';
-      // Ne pas fermer la modale ici
-    });
-});
-iconesPoubelle.forEach((poubelle, index) => {
-  poubelle.addEventListener('click', async (event) => {
-    event.stopPropagation();
-    // Récupérer l'élément figure parent de l'icône poubelle
-    const figureElement = poubelle.closest('.modal-figure');
-
-    // Vérifier si la modale est déjà ouverte
-    if (modal !== null) {
-      // Récupérer l'ID du projet à partir de l'attribut personnalisé
-      const projetId = figureElement.getAttribute('data-id');
-
-      // Vérifier si l'ID du projet correspond à celui de la modale actuellement ouverte
-      if (modal.getAttribute('data-id') === projetId) {
-        // Effectuer la suppression du projet
-        await supprimerProjet(projetId);
-
-        // Masquer l'élément du projet dans l'interface utilisateur
-        figureElement.style.display = 'none';
-
-        // Ne pas fermer la modale ici
-        return;
-      }
-    }
-
-    // Si la modale n'est pas déjà ouverte ou l'ID du projet ne correspond pas à celui de la modale actuellement ouverte,
-    // procéder à l'ouverture de la modale normalement
-    ouvrirModal(event);
-  });
-});
-
-// Code suppression page web 
-
-iconesPoubelle.forEach(icon => {
-    icon.addEventListener('click', function (e) {
-        icon.parentElement.remove()
-    })
-})
-boutonSupprimer.addEventListener('click', () => {
-  if (token && ids.length > 0) {
-    const premierId = ids[0];
-    supprimerProjet(premierId);
-  }
-});*/
-
-/*iconesPoubelle.forEach((icon, index) => {
-  icon.addEventListener('click', () => {
-    if (token) {
-      const id = ids[index];
-      supprimerProjet(id);
-    }
-  });
-});*/
-
-
-/*//const boutonSupprimer = document.querySelector('.supression')
-boutonSupprimer.addEventListener('click', () =>{
-    const imageContainers = document.querySelectorAll('.image-container')
-    imageContainers.forEach( container => (
-        container.remove()
-    ))
-})
-*/
-
-
-/*const ids = listeProjets.map(projet => projet.id)
-console.log(ids)
-const boutonSupprimer = document.querySelector('.supression')
-let iconesPoubelle = document.querySelectorAll('.poubelle')
-
-
-function supprimerProjet(id) {
-  // Vérifier si l'utilisateur est authentifié (vous devez mettre votre propre logique d'authentification ici)
-  if (!token) {
-    alert("Vous devez vous connecter pour supprimer un projet.");
-    return;
-  }
-
-  // Vérifier si l'id du projet est présent
-  if (!id) {
-    alert("Impossible de récupérer l'ID du projet.");
-    return;
-  }
-
   // Effectuer une requête vers l'API pour supprimer le projet
-  var url = "http://localhost:5678/api/works/" + id;
-  fetch(url, {
+  let url = "http://localhost:5678/api/works/" + id
+  const response = fetch(url, {
     method: "DELETE",
     headers: {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4OTMyMDc3NSwiZXhwIjoxNjg5NDA3MTc1fQ.dw2554WKJDInJ6n9FBfa13YgWG0pBlAFQDiTtpQA9lA"
+      "Authorization": `Bearer ${token}`
     }
   })
     .then(response => {
       if (response.ok) {
         // Suppression réussie, faire les traitements nécessaires (par exemple, masquer le projet de l'interface)
-        console.log(id)
-        let projet = document.getElementById("projet-" + id);
-        projet.style.display = "none";
-        alert("Le projet a été supprimé avec succès.");
+        let projet = document.querySelector(`[data-id="${id}"]`)
+        console.log(projet)
+        mettreAJourListeProjets(id)
+        alert("Le projet a été supprimé avec succès.")
       } else {
         // La suppression a échoué, afficher un message d'erreur approprié
-        alert("Une erreur s'est produite lors de la suppression du projet.");
+        console.error("Une erreur s'est produite lors de la suppression du projet:", response.statusText)
+        alert("Une erreur s'est produite lors de la suppression du projet.")
       }
     })
+
     .catch(error => {
-      console.log(error);
-      alert("Une erreur s'est produite lors de la suppression du projet.");
-    });
+      console.error("Une ERREUR s'est produite lors de la suppression du projet:", error.message)
+      alert("Une ERREUR s'est produite lors de la suppression du projet.")
+    })
+  }
+
+// Fonction pour mettre à jour la liste des projets après la suppression
+function mettreAJourListeProjets(idProjetSupprime) {
+  // Filtrer la liste existante pour exclure le projet supprimé
+  listeProjets = listeProjets.filter(projet => projet.id !== idProjetSupprime)
 }
 
-// Appel de la fonction supprimerProjet avec un ID spécifique
-boutonSupprimer.addEventListener('click', () =>{
-        
-        if (token){
-        supprimerProjet()
-        }
-    
-})
-
-
-iconesPoubelle.forEach(icon => {
-    icon.addEventListener('click', function (e) {
-        
-            if (token){
-            supprimerProjet()
-            }
-        
+  iconesPoubelle.forEach((poubelle, index) => {
+    poubelle.addEventListener('click', (event) => {
+      event.stopPropagation()
+      // Récupérer l'élément figure parent de l'icône poubelle
+      const figureElement = poubelle.closest('.modal-figure')
+      // Récupérer l'ID du projet à partir de l'attribut personnalisé
+      const projetId = figureElement.getAttribute('data-id')
+      console.log(projetId)
+      supprimerProjet(projetId, event)
+      // Masquer l'élément du projet dans l'interface utilisateur
+      figureElement.style.display = 'none'
     })
-}); // Supprime le premier projet de la liste
-*/
-
-/*boutonSupprimer.addEventListener('click', () =>{
-function supprimerProjet(element) {
-    // Vérifier si l'utilisateur est authentifié (vous devez mettre votre propre logique d'authentification ici)
-    if (token === null) {
-      alert("Vous devez vous connecter pour supprimer un projet.");
-      return;
-    }
-  
-    // Vérifier si l'id du projet est présent
-    if (!id) {
-      alert("Impossible de récupérer l'ID du projet.");
-      return;
-    }
-
-    let id = element.getAttribute("data-id")
-  
-    // Effectuer une requête vers l'API pour supprimer le projet
-    let url = "http://localhost:5678/api/works/" + id;
-    fetch(url, {
-      method: "DELETE",
-      headers: {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4OTMyMDc3NSwiZXhwIjoxNjg5NDA3MTc1fQ.dw2554WKJDInJ6n9FBfa13YgWG0pBlAFQDiTtpQA9lA"
-      }
-    })
-      .then(response => {
-        if (response.ok) {
-          // Suppression réussie, faire les traitements nécessaires (par exemple, masquer le projet de l'interface)
-          var projet = document.getElementById("projet");
-          projet.style.display = "none";
-          alert("Le projet a été supprimé avec succès.");
-        } else {
-          // La suppression a échoué, afficher un message d'erreur approprié
-          alert("Une erreur s'est produite lors de la suppression du projet.");
-        }
-      })
-      .catch(error => {
-        console.log(error);
-        alert("Une erreur s'est produite lors de la suppression du projet.");
-      });
-  }
-})*/
-  
-  
-
-//const url = `http://localhost:5678/api/works/${ids}`; // URL de la route de suppression
-
-
-/*const iconesPoubelle = document.querySelectorAll('.poubelle')
-
-iconesPoubelle.forEach(icon => {
-    icon.addEventListener('click', () => {
-for (let id of ids)
-        if (token && ids) {
-            // L'utilisateur est authentifié, envoyer la requête DELETE à l'API pour supprimer le projet
-            const url = `http://localhost:5678/api/works/${ids}`; // URL de la route de suppression
-
-            fetch(url, {
-                method: 'DELETE'
-            })
-                .then(response => {
-                    if (response.ok) {
-                        console.log('Projet supprimé avec succès');
-                    } else {
-                        console.log('Erreur lors de la suppression du projet');
-                    }
-                })
-                .catch(error => {
-                    console.error('Erreur lors de l\'envoi de la requête:', error);
-                });
-        } else {
-            // L'utilisateur n'est pas authentifié, afficher un message d'erreur
-            console.log('Vous devez être authentifié pour supprimer un projet');
-        }
-    });
-      var element = event.target;
-  var id = element.parentNode.getAttribute("data-id");
-})*/
-    
-
-
-
-
-
-
-
-
-
-//rendre mes filtres fonctionnels
-
-//boucle remplacer par la fonction filter
-/*
-let projetId
-let nomDuProjet
-for (const projet of listeProjets) {
-    if (projet.nom === nomDuProjet) {
-      projetId = projet.id;
-      break;
-    }
-  }
-let imagesProjetASupprimer = document.querySelector('.image-container')
-
-iconePoubelle.addEventListener('click', function(e){
-    e.preventDefault()
-    imagesProjetASupprimer.forEach(function(image){
-        image.remove()
-    })else {
-    document.querySelectorAll('.admin').classList.add('hidden')
-}
-
-listeProjets.forEach( projetObjetFiltrés =>{
-    const listeFiltreObjets = []
-    for (let i=0; i<listeProjets.length; i++){
-        listeProjets[i].categoryId
-        //console.log(listeProjets[i].categoryId)
-        //console.log("bouton,"+boutonFiltreObjets.dataset.category)
-        if (boutonFiltreObjets.dataset.category == listeProjets[i].categoryId){
-            listeFiltreObjets.push(i)
-            //console.log(boutonFiltreObjets.dataset.category)
-        }
-    }
-})*/
+  })
